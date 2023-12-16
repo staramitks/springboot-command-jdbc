@@ -9,4 +9,6 @@ Year :- 2023
 public interface HeartBeatService {
 
     int isHeartBeating();
+
+    int getMessagesCount();
 }
