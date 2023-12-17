@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class HeartBeatDAOImpl implements HeartBeatDAO {
+public class ApplicationDAOImpl implements ApplicationDAO {
 
     @Value("${heart.beat.sql}")
     private String heartBeatSQL;
@@ -25,5 +25,10 @@ public class HeartBeatDAOImpl implements HeartBeatDAO {
     public int isHeartBeating() {
         Integer result = appJdbcTemplate.queryForObject(this.heartBeatSQL, Integer.class, new Object[]{});
         return result;
+    }
+
+    @Override
+    public int getMessagesCount(){
+        return 200;
     }
 }

@@ -1,5 +1,6 @@
 # springboot-command-jdbc
-springboot-command-jdbc with integration test suite
+- springboot-command-jdbc with integration test suite
+- Mockito testing
 # Technology Stack
  - SpringBoot 3.2
  - Java 17

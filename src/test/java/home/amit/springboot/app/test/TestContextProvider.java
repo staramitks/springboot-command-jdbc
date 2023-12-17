@@ -6,6 +6,10 @@ Time :- 2:31 PM
 Year :- 2023
 */
 
+import home.amit.springboot.app.dao.ApplicationDAO;
+import home.amit.springboot.app.dao.ApplicationDAOImpl;
+import home.amit.springboot.app.service.ApplicationService;
+import home.amit.springboot.app.service.ApplicationServiceImpl;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,13 +34,25 @@ public class TestContextProvider {
 
     @Bean
     @Primary
-    protected JdbcTemplate getJDBCTemplate(){
-       JdbcTemplate appJdbcTemplate= Mockito.mock(JdbcTemplate.class);
-        Mockito.when(appJdbcTemplate.queryForObject(this.heartBeatSQL, Integer.class, new Object[]{}))
-                .thenReturn(20);
-        return appJdbcTemplate;
+    protected ApplicationDAO getApplicationDAO(){
+        ApplicationDAO applicationDAO= Mockito.mock(ApplicationDAOImpl.class);
+        Mockito.when(applicationDAO.isHeartBeating())
+                .thenReturn(29);
+        Mockito.when(applicationDAO.getMessagesCount())
+                .thenReturn(99);
+        return applicationDAO;
     }
 
+//    @Bean
+//    @Primary
+//    protected ApplicationService getApplicationService(){
+//        ApplicationService applicationService= Mockito.mock(ApplicationServiceImpl.class);
+//        Mockito.when(applicationService.isHeartBeating())
+//                .thenReturn(29);
+//        Mockito.when(applicationService.getMessagesCount())
+//                .thenReturn(99);
+//        return applicationService;
+//    }
 
 
 }

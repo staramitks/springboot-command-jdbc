@@ -6,6 +6,7 @@ Time :- 1:38 PM
 Year :- 2023
 */
 
-public interface HeartBeatDAO {
+public interface ApplicationDAO {
         int isHeartBeating();
+        int getMessagesCount();
 }

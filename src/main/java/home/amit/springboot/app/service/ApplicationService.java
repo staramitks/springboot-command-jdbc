@@ -6,7 +6,7 @@ Time :- 1:44 PM
 Year :- 2023
 */
 
-public interface HeartBeatService {
+public interface ApplicationService {
 
     int isHeartBeating();
 
