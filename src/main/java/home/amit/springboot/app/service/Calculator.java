@@ -6,6 +6,9 @@ Time :- 2:58 PM
 Year :- 2023
 */
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Calculator {
     public double divide(double dividend, double divisor) {
         if (divisor == 0) {

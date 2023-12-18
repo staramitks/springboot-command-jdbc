@@ -25,20 +25,6 @@ public class TestBaseClass {
 
     public static MemoryAppender memoryAppender;
     private static final Class clazz = home.amit.springboot.app.service.MyMessagePrinting.class;
-    @BeforeAll
-    static void testMessage()
-    {
-        Logger logger = (Logger) LoggerFactory.getLogger(clazz);
-        memoryAppender = new MemoryAppender();
-        memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
-        logger.setLevel(Level.DEBUG);
-        logger.addAppender(memoryAppender);
-        memoryAppender.start();
-    }
 
-    @AfterAll
-    public static void cleanUp() {
-        memoryAppender.reset();
-        memoryAppender.stop();
-    }
+
 }
