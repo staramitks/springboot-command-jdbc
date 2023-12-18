@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.internal.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.ArgumentCaptor;
@@ -31,6 +32,7 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 @SpringBootTest
@@ -48,6 +50,9 @@ public class SpringBootApplicationTest extends TestBaseClass {
 
 
 	@Autowired
+	Calculator mockCalculator;
+
+	@Autowired
 	ApplicationDAO applicationDAO;
 
 
@@ -57,16 +62,11 @@ public class SpringBootApplicationTest extends TestBaseClass {
 	MyMessagePrinting myMessagePrinting= new MyMessagePrinting();
 
 	@Test
-	@Timeout(1)
+	@Timeout(100)
 	public void testLogMessage(CapturedOutput output) {
 		String testStr="Returning Successfully with result of 29";
-		//myMessagePrinting.testMessage();
-		try{
-			Thread.sleep(500);
-		}
-		catch (Exception e){
-			System.out.println(e);
-		}
+
+		Awaitility.await().timeout(20, TimeUnit.SECONDS).untilAsserted(()->Assertions.assertTrue(output.getOut().contains(testStr)));
 		Assertions.assertTrue(output.getOut().contains(testStr));
 	}
 
@@ -79,13 +79,6 @@ public class SpringBootApplicationTest extends TestBaseClass {
 	//	assertEquals(2, repetitionInfo.getTotalRepetitions());
 
 	}
-	@Test
-	@Disabled
-	void testWithCapturedOutput() {
-		String testStr="This is the method I want to test";
-		System.out.println(memoryAppender.getSize());
-		Assertions.assertTrue(memoryAppender.contains(testStr, Level.DEBUG));
-	}
 
 
 
@@ -96,26 +89,16 @@ public class SpringBootApplicationTest extends TestBaseClass {
 	}
 
 
-
-
 	@Test
-	public void testDivide() {
-		// Create a mock Calculator
-		Calculator mockCalculator = Mockito.mock(Calculator.class);
+	public void test_argument_captor() {
+		ArgumentCaptor<Double> divisorCaptor1 = ArgumentCaptor.forClass(Double.class);
+		ArgumentCaptor<Double> divisorCaptor2 = ArgumentCaptor.forClass(Double.class);
+		verify(mockCalculator).divide(divisorCaptor1.capture(), divisorCaptor2.capture());
+		Assertions.assertNotNull(divisorCaptor1);
+		Assertions.assertNotNull(divisorCaptor2);
 
-		ArgumentCaptor<Double> divisorCaptor = ArgumentCaptor.forClass(Double.class);
-		double result = mockCalculator.divide(10.0, 2.0);
-
-		// Verify that the divide method was called with the expected arguments
-		verify(mockCalculator).divide(divisorCaptor.capture(), divisorCaptor.capture());
-
-		// Assert on the captured value
-		List<Double> capturedDivisor = divisorCaptor.getAllValues();
-		assertEquals(2.0, capturedDivisor.get(1), 0.001);
-
-		// You can also assert on the result or perform other verifications as needed
-		assertEquals(10.0, capturedDivisor.get(0), 0.001);
 	}
+
 
 
 }

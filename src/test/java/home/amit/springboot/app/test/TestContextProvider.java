@@ -10,6 +10,7 @@ import home.amit.springboot.app.dao.ApplicationDAO;
 import home.amit.springboot.app.dao.ApplicationDAOImpl;
 import home.amit.springboot.app.service.ApplicationService;
 import home.amit.springboot.app.service.ApplicationServiceImpl;
+import home.amit.springboot.app.service.Calculator;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +43,17 @@ public class TestContextProvider {
                 .thenReturn(99);
         return applicationDAO;
     }
+
+    @Bean
+    @Primary
+    public Calculator getCalculator(){
+
+        Calculator calculator=Mockito.mock(Calculator.class);
+        Mockito.when(calculator.divide(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(550.0);
+        return calculator;
+    }
+
+
 
 //    @Bean
 //    @Primary
